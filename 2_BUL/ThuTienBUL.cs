@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _3_DAL;
-using _4_DTO;
 
 namespace _2_BUL
 {
@@ -13,42 +12,42 @@ namespace _2_BUL
     {
         public static DataTable SellectAllThuTiensBUL()
         {
-            return ThuTienController.SellectAllThuTiensDAL();
+            return ThuTienDAL.SellectAllThuTiensDAL();
         }
 
         public static void DeleteThuTiensBUL(List<string> keys)
         {
-            ThuTienController.DeleteThuTiensDAL(keys);
+            ThuTienDAL.DeleteThuTiensDAL(keys);
         }
 
-        public static PHIEUTHUTIEN SelectThuTienBUL(string key)
+        public static THUTIEN SelectThuTienBUL(string key)
         {
-            return ThuTienController.SelectThuTienDAL(key);
+            return ThuTienDAL.SelectThuTienDAL(key);
         }
 
-        public static void InsertThuTienBUL(PHIEUTHUTIEN item)
+        public static void InsertThuTienBUL(THUTIEN item)
         {
-            ThuTienController.InsertThuTienDAL(item);
+            ThuTienDAL.InsertThuTienDAL(item);
         }
 
         public static bool checkMaThuTienBUL(string key)
         {
-            return ThuTienController.checkMaThuTienDAL(key);
+            return ThuTienDAL.checkMaThuTienDAL(key);
         }
 
-        public static void UpdateThuTienBUL(PHIEUTHUTIEN item)
+        public static void UpdateThuTienBUL(THUTIEN item)
         {
-            ThuTienController.UpdateThuTienDAL(item);
+            ThuTienDAL.UpdateThuTienDAL(item);
         }
 
         public static DataTable SearchThuTiensBUL(string key)
         {
-            return ThuTienController.SearchThuTiensDAL(key);
+            return ThuTienDAL.SearchThuTiensDAL(key);
         }
 
         public static bool checkKH_ThuTienBUL(string key)
         {
-            return ThuTienController.checkKH_ThuTienDAL(key);
+            return ThuTienDAL.checkKH_ThuTienDAL(key);
         }
     }
 }

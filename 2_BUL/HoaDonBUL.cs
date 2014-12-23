@@ -1,11 +1,11 @@
-﻿using System;
+﻿
+using _3_DAL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _3_DAL;
-using _4_DTO;
 
 namespace _2_BUL
 {
@@ -13,42 +13,37 @@ namespace _2_BUL
     {
         public static DataTable SellectAllHoaDonBUL()
         {
-            return HoaDonController.SellectAllHoaDonDAL();
+            return HoaDonDAL.SellectAllHoaDonDAL();
         }
 
         public static void DeleteHoaDonsBUL(List<string> keys)
         {
-            HoaDonController.DeleteHoaDonsDAL(keys);
+            HoaDonDAL.DeleteHoaDonsDAL(keys);
         }
 
         public static HOADON SelectHoaDonBUL(string key)
         {
-            return HoaDonController.SelectHoaDonDAL(key);
+            return HoaDonDAL.SelectHoaDonDAL(key);
         }
 
         public static void InsertHoaDonBUL(HOADON item)
         {
-            HoaDonController.InsertHoaDonDAL(item);
+            HoaDonDAL.InsertHoaDonDAL(item);
         }
 
         public static bool checkMaHDBUL(string key)
         {
-            return HoaDonController.checkMaHDDAL(key);
+            return HoaDonDAL.checkMaHDDAL(key);
         }
 
         public static void UpdateHoaDonBUL(HOADON item)
         {
-            HoaDonController.UpdateHoaDonDAL(item);
+            HoaDonDAL.UpdateHoaDonDAL(item);
         }
 
         public static DataTable SearchHoaDonsBUL(string key)
         {
-            return HoaDonController.SearchHoaDonsDAL(key);
-        }
-
-        public static KHACHHANG SelectHoaDon_KHBUL(string p)
-        {
-            return HoaDonController.SelectHoaDon_KHDAL(p);
+            return HoaDonDAL.SearchHoaDonsDAL(key);
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _3_DAL;
-using _4_DTO;
 
 namespace _2_BUL
 {
@@ -23,47 +22,42 @@ namespace _2_BUL
 
         public static DataTable SellectAllCTPNBUL()
         {
-            return CTPNController.SellectAllCTPNDAL();
+            return CTPNDAL.SellectAllCTPNDAL();
         }
 
         public static void DeleteCTPNBUL(List<string> keys)
         {
-            CTPNController.DeleteCTPNDAL(keys);
+            CTPNDAL.DeleteCTPNDAL(keys);
         }
 
         public static CTPN SelectCTPNBUL(string key)
         {
-            return CTPNController.SelectCTPNDAL(key);
+            return CTPNDAL.SelectCTPNDAL(key);
         }
 
         public static void InsertCTPNBUL(CTPN item)
         {
-            CTPNController.InsertCTPNDAL(item);
+            CTPNDAL.InsertCTPNDAL(item);
         }
 
         public static bool checkMaCTPNBUL(string key)
         {
-            return CTPNController.checkMaCTPNDAL(key);
+            return CTPNDAL.checkMaCTPNDAL(key);
         }
 
         public static void UpdateCTPNBUL(CTPN item)
         {
-            CTPNController.UpdateCTPNDAL(item);
+            CTPNDAL.UpdateCTPNDAL(item);
         }
 
         public static DataTable SearchCTPNBUL(string key)
         {
-            return CTPNController.SearchCTPNDAL(key);
+            return CTPNDAL.SearchCTPNDAL(key);
         }
 
         public static bool checkSachSLTonBUL(string key)
         {
-            return CTPNController.checkCTPN_SachSLTonDAL(key);
-        }
-
-        public static bool checkSL_NhapItNhat(int? key)
-        {
-            return CTPNController.checkSL_NhapItNhat(key);
+            return CTPNDAL.checkCTPN_SachSLTonDAL(key);
         }
     }
 }

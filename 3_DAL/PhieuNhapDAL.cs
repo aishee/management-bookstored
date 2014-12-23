@@ -10,7 +10,6 @@ namespace _3_DAL
     public class PhieuNhapDAL
     {
         static QLNSModel db = new QLNSModel();
-
         public static void InsertPNDAL(NHAP temp)
         {
             db.NHAPs.InsertOnSubmit(temp);
