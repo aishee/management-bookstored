@@ -13,7 +13,6 @@ namespace _3_DAL
 
          public static void InsertBookDAL(SACH item) 
          {
-             item.XoaDuLieu = false;
              db.SACHes.InsertOnSubmit(item);
 
              db.SubmitChanges();
@@ -24,7 +23,6 @@ namespace _3_DAL
              DataTable dt = new DataTable();
 
              var query = from sc in db.SACHes
-                         where sc.XoaDuLieu == false
                          select new
                          {
                              sc.MaSach,
@@ -62,26 +60,7 @@ namespace _3_DAL
          {
              //Take books in Saches which have Masach equal listbooks
               ////
-             db.CTPNs
-                 .Where(i => keys.Contains(i.MaSach))
-                 .ToList()
-                 .ForEach(i => i.XoaDuLieu = true);
-             db.CTHDs
-                 .Where(i => keys.Contains(i.MaSach))
-                 .ToList()
-                 .ForEach(i => i.XoaDuLieu = true);
-             db.PHIEUTONs
-                 .Where(i => keys.Contains(i.MaSach))
-                 .ToList()
-                 .ForEach(i => i.XoaDuLieu = true);
-
-             db.SACHes
-                 .Where(i => keys.Contains(i.MaSach))
-                 .ToList()
-                 .ForEach(i => i.XoaDuLieu = true);
-
-
-             db.SubmitChanges();
+             throw new Exception();
 
          }
 
@@ -137,7 +116,7 @@ namespace _3_DAL
                             sc.DonGia.ToString().Contains(key) ||
                             sc.DonGia.ToString().StartsWith(key) ||
                             sc.DonGia.ToString().EndsWith(key)
-                         ) && sc.XoaDuLieu == false
+                         )
                          select new
                          {
                              sc.MaSach,

@@ -11,7 +11,6 @@ namespace _3_DAL
 
         public static void InsertCustomerDAL(KHACHHANG temp)
         {
-            temp.XoaDuLieu = false;
             db.KHACHHANGs.InsertOnSubmit(temp);
 
             db.SubmitChanges();
@@ -80,6 +79,8 @@ namespace _3_DAL
                 .Where(i => lst.Contains(i.MaHD))
                 .ToList()
                 .ForEach(i => i.XoaDuLieu = true);
+
+
             db.HOADONs
                 .Where(i => keys.Contains(i.MaKH))
                 .ToList()

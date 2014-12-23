@@ -12,7 +12,6 @@ namespace _3_DAL
 
         public static void InsertPNDAL(PHIEUNHAP item)
         {
-            item.XoaDuLieu = false;
             db.PHIEUNHAPs.InsertOnSubmit(item);
 
             db.SubmitChanges();
@@ -23,7 +22,6 @@ namespace _3_DAL
             DataTable dt = new DataTable();
 
             var query = from pn in db.PHIEUNHAPs
-                        where pn.XoaDuLieu == false
                         select new
                         {
                             pn.MaPN,
@@ -51,19 +49,21 @@ namespace _3_DAL
 
         public static void DeletePNsDAL(List<string> keys)
         {
+            //Take PNs in Nhaps which have maPN equal listPN
+            var lstPNs = from b in db.PHIEUNHAPs
+                           where keys.Contains(b.MaPN)
+                           select b;
+            //Take PNs in CTPN which have maPN equal lstPNs.MAPN
+            var lstctpns = from b in db.CTPNs
+                           join ln in lstPNs on b.MaPN equals ln.MaPN
+                           select b;
 
             //Delete on CTPN
-            db.CTPNs
-                .Where(i => keys.Contains(i.MaPN))
-                .ToList()
-                .ForEach(i => i.XoaDuLieu = true);
+            db.CTPNs.DeleteAllOnSubmit(lstctpns);
 
 
             //Delete on NHAP
-            db.PHIEUNHAPs
-                .Where(i => keys.Contains(i.MaPN))
-                .ToList()
-                .ForEach(i => i.XoaDuLieu = true);
+            db.PHIEUNHAPs.DeleteAllOnSubmit(lstPNs);
 
             //Confirm database
             db.SubmitChanges();
@@ -105,7 +105,7 @@ namespace _3_DAL
                            pn.NgayNhap.ToString().StartsWith(key) ||
                            pn.NgayNhap.ToString().EndsWith(key) ||
                            pn.NgayNhap.ToString().Contains(key)
-                        ) && pn.XoaDuLieu == false
+                        )
                         select new
                         {
                             pn.MaPN,
