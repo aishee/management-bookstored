@@ -9,40 +9,40 @@ namespace _3_DAL
     public class TonController
     {
         static QLNSModelDataContext db = new QLNSModelDataContext();
+       
+        public static void InsertTonDAL(PHIEUTON item)
+        {
+            db.PHIEUTONs.InsertOnSubmit(item);
+            db.SubmitChanges();
+        }
 
         public static DataTable SellectAllTonsDAL()
         {
             DataTable dt = new DataTable();
 
-            //Ngay Nhap nho nhat
-            var temp0 = from i in db.CTPNs
-                        join j in db.PHIEUNHAPs on i.MaPN equals j.MaPN
-                        group new { i, j } by new { i.MaSach, j.NgayNhap.Value.Month } into g
-                        select new { MaSach = g.Key.MaSach, g.Key.Month, MinDate = g.Min(t => t.j.NgayNhap), SL_TonCuoi = g.Sum(t => t.i.SL_Nhap) };
-
-
-            var temp2 = from i in temp0
-                        join j in db.CTPNs on i.MaSach equals j.MaSach
+            var query = from item in db.PHIEUTONs
+                        join item1 in db.SACHes on item.MaSach equals item1.MaSach
+                        where item.XoaDuLieu == false
                         select new
                         {
-                            i.MaSach,
-                            i.Month,
-                            TonDau = j.SL_Nhap,
-                            TonPhatSinh = i.SL_TonCuoi - j.SL_Nhap,
-                            TonCuoi = i.SL_TonCuoi
+                            item.MaTon,
+                            item1.TenSach,
+                            item.TonDau,
+                            item.TonPhatSinh,
+                            item.TonCuoi,
+                            item.Thang
                         };
-                         
-
             dt.Columns.Add("STT", typeof(int));
+            dt.Columns.Add("Mã Tồn", typeof(string));
             dt.Columns.Add("Tên Sách", typeof(string));
-            dt.Columns.Add("Tháng", typeof(int));
             dt.Columns.Add("Tồn Đầu", typeof(int));
             dt.Columns.Add("Tồn Phát Sinh", typeof(int));
             dt.Columns.Add("Tồn Cuối", typeof(int));
+            dt.Columns.Add("Tháng", typeof(int));
             int stt = 1;
-            foreach (var item in temp2)
+            foreach (var item in query)
             {
-                dt.Rows.Add(stt, item.MaSach, item.Month, item.TonDau, item.TonPhatSinh, item.TonCuoi);
+                dt.Rows.Add(stt, item.MaTon, item.TenSach, item.TonDau, item.TonPhatSinh, item.TonCuoi, item.Thang);
                 stt++;
             }
 
@@ -55,40 +55,128 @@ namespace _3_DAL
             return query;
         }
 
-        public static DataTable SelectTon_MonthBUL(string p)
+        public static void DeleteTonsDAL(List<string> keys)
         {
-            DataTable dt = new DataTable();
+            //Detele
+            db.PHIEUTONs
+                .Where(i => keys.Contains(i.MaTon))
+                .ToList()
+                .ForEach(i => i.XoaDuLieu = true);
 
-            //Ngay Nhap nho nhat
-            var temp0 = from i in db.CTPNs
-                        join j in db.PHIEUNHAPs on i.MaPN equals j.MaPN
-                        group new { i, j } by new { i.MaSach, j.NgayNhap.Value.Month } into g
-                        select new { MaSach = g.Key.MaSach, g.Key.Month, MinDate = g.Min(t => t.j.NgayNhap), SL_TonCuoi = g.Sum(t => t.i.SL_Nhap) };
+            //Confirm database
+            db.SubmitChanges();
 
+        }
 
-            var temp2 = from i in temp0
-                        join j in db.CTPNs on i.MaSach equals j.MaSach
-                        where i.Month == Convert.ToInt16(p)
+        public static bool checkMaTonDAL(string key)
+        {
+            var query = from item in db.PHIEUTONs
+                        where item.MaTon.Equals(key)
+                        select item;
+
+            if (query.Count() <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void UpdateTonDAL(PHIEUTON item)
+        {
+            var query = db.PHIEUTONs.Single(i => i.MaTon == item.MaTon);
+            query.MaTon = item.MaTon;
+            query.TonDau = item.TonDau;
+            query.TonPhatSinh = item.TonPhatSinh;
+            query.TonCuoi = item.TonCuoi;
+            query.MaSach = item.MaSach;
+            query.Thang = item.Thang;
+
+            db.SubmitChanges();
+        }
+
+        public static DataTable SearchTonsDAL(string key)
+        {
+            var query = from item in db.PHIEUTONs
+                        join item1 in db.SACHes on item.MaSach equals item1.MaSach
+                        where
+                        (
+                           item.MaTon.StartsWith(key) ||
+                           item.MaTon.EndsWith(key) ||
+                           item.MaTon.Contains(key) ||
+                           item1.TenSach.StartsWith(key) ||
+                           item1.TenSach.EndsWith(key) ||
+                           item1.TenSach.Contains(key) ||
+                           item.TonDau.ToString().StartsWith(key) ||
+                           item.TonDau.ToString().EndsWith(key) ||
+                           item.TonDau.ToString().Contains(key) ||
+                           item.TonPhatSinh.ToString().StartsWith(key) ||
+                           item.TonPhatSinh.ToString().EndsWith(key) ||
+                           item.TonPhatSinh.ToString().Contains(key) ||
+                           item.TonCuoi.ToString().StartsWith(key) ||
+                           item.TonCuoi.ToString().EndsWith(key) ||
+                           item.TonCuoi.ToString().Contains(key) ||
+                           item.Thang.ToString().StartsWith(key) ||
+                           item.Thang.ToString().EndsWith(key) ||
+                           item.Thang.ToString().Contains(key)
+                        ) && item.XoaDuLieu == false
                         select new
                         {
-                            i.MaSach,
-                            i.Month,
-                            TonDau = j.SL_Nhap,
-                            TonPhatSinh = i.SL_TonCuoi - j.SL_Nhap,
-                            TonCuoi = i.SL_TonCuoi
+                            item.MaTon,
+                            item1.TenSach,
+                            item.TonDau,
+                            item.TonPhatSinh,
+                            item.TonCuoi,
+                            item.Thang
                         };
 
-
+            DataTable dt = new DataTable();
             dt.Columns.Add("STT", typeof(int));
+            dt.Columns.Add("Mã Tồn", typeof(string));
             dt.Columns.Add("Tên Sách", typeof(string));
-            dt.Columns.Add("Tháng", typeof(int));
             dt.Columns.Add("Tồn Đầu", typeof(int));
             dt.Columns.Add("Tồn Phát Sinh", typeof(int));
             dt.Columns.Add("Tồn Cuối", typeof(int));
+            dt.Columns.Add("Tháng", typeof(int));
             int stt = 1;
-            foreach (var item in temp2)
+            foreach (var item in query)
             {
-                dt.Rows.Add(stt, item.MaSach, item.Month, item.TonDau, item.TonPhatSinh, item.TonCuoi);
+                dt.Rows.Add(stt, item.MaTon, item.TenSach, item.TonDau, item.TonPhatSinh, item.TonCuoi, item.Thang);
+                stt++;
+            }
+
+            return dt;
+        }
+
+        public static DataTable SelectTon_MonthDAL(string key)
+        {
+            DataTable dt = new DataTable();
+
+            var query = from item in db.PHIEUTONs
+                        join item1 in db.SACHes on item.MaSach equals item1.MaSach
+                        where item.Thang == Convert.ToInt16(key)
+                        select new
+                        {
+                            item.MaTon,
+                            item1.TenSach,
+                            item.TonDau,
+                            item.TonPhatSinh,
+                            item.TonCuoi,
+                            item.Thang
+                        };
+            dt.Columns.Add("STT", typeof(int));
+            dt.Columns.Add("Mã Tồn", typeof(string));
+            dt.Columns.Add("Tên Sách", typeof(string));
+            dt.Columns.Add("Tồn Đầu", typeof(int));
+            dt.Columns.Add("Tồn Phát Sinh", typeof(int));
+            dt.Columns.Add("Tồn Cuối", typeof(int));
+            dt.Columns.Add("Tháng", typeof(int));
+            int stt = 1;
+            foreach (var item in query)
+            {
+                dt.Rows.Add(stt, item.MaTon, item.TenSach, item.TonDau, item.TonPhatSinh, item.TonCuoi, item.Thang);
                 stt++;
             }
 

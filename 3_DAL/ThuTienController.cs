@@ -12,10 +12,6 @@ namespace _3_DAL
         
         public static void InsertThuTienDAL(PHIEUTHUTIEN item)
         {
-            var query = db.KHACHHANGs.Single(i => i.MaKH == item.MaKH);
-            query.SoTienNo = query.SoTienNo - item.SoTienThu;
-
-            item.XoaDuLieu = false;
             db.PHIEUTHUTIENs.InsertOnSubmit(item);
             db.SubmitChanges();
         }
@@ -63,21 +59,7 @@ namespace _3_DAL
 
         public static void DeleteThuTiensDAL(List<string> keys)
         {
-            var queryThuTienCu = db.PHIEUTHUTIENs
-                .Where(i => keys.Contains(i.MaThuTien))
-                .Select(i=> new
-                    {
-                        i.MaThuTien,
-                        i.MaKH,
-                        i.SoTienThu
-                    });
 
-            foreach (var i in queryThuTienCu)
-            {
-                var temp= db.KHACHHANGs.Single(item => item.MaKH == i.MaKH);
-                temp.SoTienNo = temp.SoTienNo + i.SoTienThu;
-                db.SubmitChanges();
-            }
 
             //Detele
             db.PHIEUTHUTIENs
@@ -108,10 +90,6 @@ namespace _3_DAL
 
         public static void UpdateThuTienDAL(PHIEUTHUTIEN item)
         {
-            var queryThuTienCu = db.PHIEUTHUTIENs.Single(i => i.MaThuTien == item.MaThuTien);
-            var queryKH = db.KHACHHANGs.Single(i => i.MaKH == item.MaKH);
-            queryKH.SoTienNo = queryKH.SoTienNo - queryThuTienCu.SoTienThu + item.SoTienThu;
-
             var query = db.PHIEUTHUTIENs.Single(i => i.MaThuTien == item.MaThuTien);
             query.MaKH = item.MaKH;
             query.NgayThu = item.NgayThu;
