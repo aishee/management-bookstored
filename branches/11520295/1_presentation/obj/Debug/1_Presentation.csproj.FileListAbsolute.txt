@@ -239,3 +239,6 @@ C:\Users\supporter\Downloads\management-bookstored\trunk\1_Presentation\obj\Debu
 C:\Users\supporter\Downloads\management-bookstored\trunk\1_Presentation\obj\Debug\_1_Presentation.frmTon.resources
 C:\Users\supporter\Downloads\management-bookstored\trunk\1_Presentation\obj\Debug\_1_Presentation.Properties.Resources.resources
 C:\Users\supporter\Downloads\management-bookstored\trunk\1_Presentation\obj\Debug\1_Presentation.csproj.GenerateResource.Cache
+C:\Users\PHUONG\Desktop\Đồ Án NMCNPM\branches\11520295\1_Presentation\bin\Debug\1_Presentation.exe.config
+C:\Users\PHUONG\Desktop\Đồ Án NMCNPM\branches\11520295\1_Presentation\obj\Debug\1_Presentation.exe
+C:\Users\PHUONG\Desktop\Đồ Án NMCNPM\branches\11520295\1_Presentation\obj\Debug\1_Presentation.pdb

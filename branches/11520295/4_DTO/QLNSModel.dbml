@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QL_BOOKSTORE" Class="QLNSModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=LAZYTEAM-PC\SQLEXPRESS;Initial Catalog=QL_BOOKSTORE;Integrated Security=True" SettingsObjectName="_4_DTO.Properties.Settings" SettingsPropertyName="QL_BOOKSTOREConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=BIGTEAM-PC\SQLEXPRESS;Initial Catalog=QL_BOOKSTORE;Integrated Security=True" SettingsObjectName="_4_DTO.Properties.Settings" SettingsPropertyName="QL_BOOKSTOREConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.CONGNO" Member="CONGNOs">
     <Type Name="CONGNO">
       <Column Name="MaCongNo" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
